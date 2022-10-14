@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/wooonderful/demoprojects/init_order/pkg/pkg1"
+	"github.com/wooonderful/demoprojects/init-order/pkg/pkg1"
 )
 
 const (
