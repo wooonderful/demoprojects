@@ -16,8 +16,7 @@ spec:
     securityContext: 
       privileged: true
     ports:
-    - containerPort: 22
-    - containerPort: 8082
+    - containerPort: 2345
 
 ---
 
@@ -27,13 +26,10 @@ metadata:
   name: ssh-privileged-svc
 spec:
   ports:
-  - name: ssh-privileged
-    port: 22
-    protocol: TCP
-    targetPort: 22
   - name: server
-    port: 8082
-    targetPort: 8082
+    nodePort: 32345
+    port: 2345
+    targetPort: 2345
   selector:
     app: ssh-privileged
-  type: LoadBalancer
+  type: NodePort
