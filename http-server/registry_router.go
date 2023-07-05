@@ -36,7 +36,7 @@ func version(c *gin.Context) {
 		Revision:  "2023-7-5",
 		Version:   "2.3.6",
 	}
-	if count%25 == 0 {
+	if count%10 == 0 {
 		time.Sleep(time.Duration(10+rand.Intn(30)) * time.Second)
 		c.JSON(200, ret)
 	} else {
