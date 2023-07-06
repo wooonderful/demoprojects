@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 
@@ -36,10 +37,19 @@ func version(c *gin.Context) {
 		Revision:  "2023-7-5",
 		Version:   "2.3.6",
 	}
+
 	if count%10 == 0 {
-		time.Sleep(time.Duration(10+rand.Intn(30)) * time.Second)
+		durationCount(func() { time.Sleep(time.Duration(10+rand.Intn(30)) * time.Second) })
 		c.JSON(200, ret)
 	} else {
 		c.JSON(200, ret)
 	}
+}
+
+func durationCount(f func()) {
+	start := time.Now()
+	f()
+	end := time.Now()
+	cost := end.Unix() - start.Unix()
+	fmt.Printf("execute function cost: %d s\n", cost)
 }
