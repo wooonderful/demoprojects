@@ -3,3 +3,6 @@ file-server/fileserver_linux
 file-server/fileserver_linux_arm
 .DS_Store
 file-server/fileserver_windows.exe
+.vscode
+.idea
+

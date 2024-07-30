@@ -1,44 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sshd-deployment
-  namespace: emqx-ci-dev
-  labels:
-    app: sshd
+  name: shixiang-sshd-debug
+  namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sshd
+      app: shixiang-sshd-debug
   template:
     metadata:
       labels:
-        app: sshd
+        app: shixiang-sshd-debug
     spec:
       containers:
-      - name: sshd
-        image: wooonderful/sshd:v0.2
-        ports:
-        - containerPort: 22
-        - containerPort: 8082
-
+      - image: registry.cn-hangzhou.aliyuncs.com/wooon/sshd:0.5
+        imagePullPolicy: IfNotPresent
+        name: shixiang-sshd-debug
+      restartPolicy: Always
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: sshd-svc
-  namespace: emqx-ci-dev
+  labels:
+    app: shixiang-sshd-debug
+  name: shixiang-sshd-debug-svc
 spec:
   ports:
   - name: sshd
-    port: 22
+    nodePort: 30022
     protocol: TCP
     targetPort: 22
-  - name: server
-    port: 8082
-    targetPort: 8082
+    port: 22
   selector:
-    app: sshd
-  type: LoadBalancer
+    app: shixiang-sshd-debug
+  type: NodePort
