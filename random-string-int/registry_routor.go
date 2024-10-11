@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -17,25 +19,36 @@ func Register() {
 }
 
 type RandomResp struct {
-	IntData    int64  `json:"intdata"`
-	StringData string `json:"stringdata"`
-	Type       int    `json:"type"`
+	Val  string `json:"val"`
+	Type int    `json:"type"`
 }
 
 func randomInt(c *gin.Context) {
-	rand.Seed(time.Now().UnixNano())
+	rand.NewSource(time.Now().UnixNano())
 	resp := &RandomResp{}
 
-	typ := rand.Intn(2)
-	if typ >= 1 {
+	typ := rand.Intn(3)
+	resp.Type = typ + 1
+	if typ == 2 {
+		randomFloat := rand.Float32()
+		resp.Val = fmt.Sprintf("%f", randomFloat)
+	} else if typ == 1 {
 		randomNum := 0 + rand.Int63n(100)
-		resp.IntData = randomNum
-		resp.Type = 2
+		resp.Val = strconv.FormatInt(randomNum, 10)
 	} else {
-		randomStr := "hello"
-		resp.StringData = randomStr
-		resp.Type = 1
+		randomStr := generateRandomString(10)
+		resp.Val = randomStr
 	}
 
 	c.JSON(200, resp)
+}
+
+func generateRandomString(length int) string {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	var result []byte
+	for i := 0; i < length; i++ {
+		index := rand.Intn(len(charset))
+		result = append(result, charset[index])
+	}
+	return string(result)
 }
