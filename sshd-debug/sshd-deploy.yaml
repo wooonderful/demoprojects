@@ -14,7 +14,7 @@ spec:
         app: shixiang-sshd-debug
     spec:
       containers:
-      - image: registry.cn-hangzhou.aliyuncs.com/wooon/sshd:0.5
+      - image: wooonderful/sshd:latest
         imagePullPolicy: IfNotPresent
         name: shixiang-sshd-debug
       restartPolicy: Always
